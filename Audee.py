@@ -44,7 +44,7 @@ class Audee:
         self.genre = "Radio"
 
     def download(self):
-        dm = DownloadManager()
+        dm = DownloadManager(self.album)
         dm.load()
 
         for url in get_detail_urls(self.url):
