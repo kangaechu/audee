@@ -13,6 +13,8 @@ class DownloadManager:
                 self.downloaded = json.load(f)
         except FileNotFoundError:
             print("create new file: ", self.filename)
+        if self.album not in self.downloaded:
+            self.downloaded[self.album] = {}
 
     def save(self):
         with open(self.filename, mode='w') as f:
