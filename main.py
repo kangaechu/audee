@@ -1,10 +1,10 @@
 from Audee import Audee
+import yaml
 
 if __name__ == '__main__':
-    sauna_iko = Audee(url='https://park.gsj.mobi/program/voice/100000061',
-                      album="清水みさとの、サウナいこ？")
-    sauna_iko.download()
+    conf_file = "conf/conf.yaml"
+    with open(conf_file) as f:
+        conf = yaml.load(f, Loader=yaml.CLoader)
 
-    sauna_iko = Audee(url='https://audee.jp/program/voice/40889',
-                      album="伊藤沙莉のsaireek channel")
-    sauna_iko.download()
+    for program in conf["Programs"]:
+        Audee(url=program['Url'], album=program['Name'], prog_dir=conf['ProgDir']).download()

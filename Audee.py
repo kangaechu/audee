@@ -1,3 +1,4 @@
+import os
 import re
 import subprocess
 from datetime import date
@@ -37,9 +38,10 @@ def get_detail_page_info(url='https://park.gsj.mobi/voice/show/23234'):
 
 
 class Audee:
-    def __init__(self, url, album):
+    def __init__(self, url, album, prog_dir):
         self.url = url
         self.album = album
+        self.prog_dir = prog_dir
         self.artist = "Tokyo FM"
         self.genre = "Radio"
 
@@ -51,9 +53,10 @@ class Audee:
             url, title, recorded_at = get_detail_page_info(url)
             date_str = recorded_at.strftime("%Y-%m-%d")
             if dm.is_downloaded(date_str):
-                print("%s is already downloaded" % date_str)
+                # print("%s %s is already downloaded" % (self.album, date_str))
+                pass
             else:
-                print("%s downloading" % date_str)
+                print("%s %s downloading" % (self.album, date_str))
                 self.__download(url, title, recorded_at)
                 dm.add(date_str, title, url)
 
@@ -63,6 +66,7 @@ class Audee:
         ymd = recorded_at.strftime("%Y-%m-%d")
         name = "%s %s" % (ymd, title)
         name = re.sub(r'[\\/:*?"<>|]+', '', name)
+        audio_filename = os.path.join(self.prog_dir, name + ".mp3")
         cmd = 'ffmpeg -i "%s" ' \
               '-metadata title="%s" ' \
               '-metadata artist="%s" ' \
@@ -70,5 +74,5 @@ class Audee:
               '-metadata date="%s" ' \
               '-metadata genre="%s" ' \
               '"%s.mp3"' \
-              % (url, name, self.artist, self.album, ymd, self.genre, name)
+              % (url, name, self.artist, self.album, ymd, self.genre, audio_filename)
         subprocess.call(cmd, shell=True)
