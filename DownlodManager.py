@@ -1,3 +1,5 @@
+import os
+
 import yaml
 
 
@@ -5,7 +7,7 @@ class DownloadManager:
     def __init__(self, album, filename='conf/downloaded.yaml'):
         self.downloaded = dict()
         self.album = album
-        self.filename = filename
+        self.filename = os.path.join(os.path.dirname(__file__), filename)
 
     def load(self):
         try:
