@@ -2,6 +2,11 @@ import os
 
 import yaml
 
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
+
 
 class DownloadManager:
     def __init__(self, album, filename='conf/downloaded.yaml'):
@@ -12,7 +17,7 @@ class DownloadManager:
     def load(self):
         try:
             with open(self.filename) as f:
-                self.downloaded = yaml.load(f, Loader=yaml.CLoader)
+                self.downloaded = yaml.load(f, Loader=Loader)
         except FileNotFoundError:
             print("create new file: ", self.filename)
         if self.album not in self.downloaded:
