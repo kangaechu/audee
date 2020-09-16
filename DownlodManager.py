@@ -1,8 +1,8 @@
-import json
+import yaml
 
 
 class DownloadManager:
-    def __init__(self, album, filename='downloaded.json'):
+    def __init__(self, album, filename='conf/downloaded.yaml'):
         self.downloaded = dict()
         self.album = album
         self.filename = filename
@@ -10,7 +10,7 @@ class DownloadManager:
     def load(self):
         try:
             with open(self.filename) as f:
-                self.downloaded = json.load(f)
+                self.downloaded = yaml.load(f, Loader=yaml.CLoader)
         except FileNotFoundError:
             print("create new file: ", self.filename)
         if self.album not in self.downloaded:
@@ -18,7 +18,7 @@ class DownloadManager:
 
     def save(self):
         with open(self.filename, mode='w') as f:
-            json.dump(self.downloaded, f, indent=2, ensure_ascii=False)
+            yaml.dump(self.downloaded, f, encoding='utf-8', allow_unicode=True)
 
     def is_downloaded(self, date: str):
         return date in self.downloaded[self.album]
