@@ -73,6 +73,6 @@ class Audee:
               '-metadata album="%s" ' \
               '-metadata date="%s" ' \
               '-metadata genre="%s" ' \
-              '"%s.mp3"' \
+              '"%s"' \
               % (url, name, self.artist, self.album, ymd, self.genre, audio_filename)
         subprocess.call(cmd, shell=True)
