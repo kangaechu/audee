@@ -24,7 +24,7 @@ def datestring_to_date(datestring):
 def get_detail_page_info(url='https://park.gsj.mobi/voice/show/23234'):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    title = soup.select_one("h1").text
+    title = soup.select("h1")[1].text.strip()
     recorded_at = datestring_to_date(soup.select_one("div.voice_date").text.strip())
     pattern = re.compile(r'mp3: \"(.*?)\"', re.MULTILINE | re.DOTALL)
     scripts = soup.select("script")
