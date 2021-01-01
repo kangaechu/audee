@@ -12,27 +12,27 @@ from DownlodManager import DownloadManager
 def get_detail_urls(url='https://park.gsj.mobi/program/voice/100000061'):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    articles = soup.select(".column_yokolist")
+    articles = soup.select(".contents__content")
     return [article.select_one("a").get("href") for article in articles]
 
 
 def datestring_to_date(datestring):
-    ymd = datestring.split('/')
+    ymd = datestring.split('(')[0].split('/') # (曜日)を削除
     return date(int(ymd[0]), int(ymd[1]), int(ymd[2]))
 
 
 def get_detail_page_info(url='https://park.gsj.mobi/voice/show/23234'):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    title = soup.select("h1")[1].text.strip()
-    recorded_at = datestring_to_date(soup.select_one("div.voice_date").text.strip())
-    pattern = re.compile(r'mp3: \"(.*?)\"', re.MULTILINE | re.DOTALL)
+    title = soup.select_one(".ttl-inner").contents[1].strip()
+    recorded_at = datestring_to_date(soup.select_one(".txt-date-01").text.strip())
+    pattern = re.compile(r'"voice": \"(.*?)\"', re.MULTILINE | re.DOTALL)
     scripts = soup.select("script")
     url = ""
     for script in scripts:
         match = pattern.search(str(script.contents))
         if match:
-            url = "https:" + match.group(1)
+            url = match.group(1)
             break
     return url, title, recorded_at
 
