@@ -1,6 +1,6 @@
 ProgDir: ./prog
 Programs:
   - Name: hoge
-    Url: https://hoge
+    Url: https://audee.jp/program/show/[id]
   - Name: fuga
-    Url: https://fuga
+    Url: https://audee.jp/program/show/[id]
