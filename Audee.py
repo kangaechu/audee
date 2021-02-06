@@ -12,7 +12,8 @@ from DownlodManager import DownloadManager
 def get_detail_urls(url='https://audee.jp/voice/show/27652'):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    articles = soup.select(".box-article-item")
+    voice_section = soup.select_one
+    articles = voice_section.select(".box-article-item")
     return [article.select_one("a").get("href") for article in articles]
 
 
@@ -21,7 +22,7 @@ def datestring_to_date(datestring):
     return date(int(ymd[0]), int(ymd[1]), int(ymd[2]))
 
 
-def get_detail_page_info(url='https://park.gsj.mobi/voice/show/23234'):
+def get_detail_page_info(url='https://audee.jp/voice/show/27863'):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
     title = soup.select_one(".ttl-inner").contents[1].strip()
