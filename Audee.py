@@ -9,10 +9,10 @@ from bs4 import BeautifulSoup
 from DownlodManager import DownloadManager
 
 
-def get_detail_urls(url='https://audee.jp/voice/show/27652'):
+def get_detail_urls(url='https://audee.jp/program/show/100000061'):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    voice_section = soup.select_one
+    voice_section = soup.select_one('#content_tab_voice')
     articles = voice_section.select(".box-article-item")
     return [article.select_one("a").get("href") for article in articles]
 
