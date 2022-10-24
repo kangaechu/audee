@@ -67,6 +67,8 @@ class Audee:
         ymd = recorded_at.strftime("%Y-%m-%d")
         name = "%s %s" % (ymd, title)
         name = re.sub(r'[\\/:*?"<>|]+', '', name)
+        # ext4は255byte、utf-8は3byte/charなので85文字。拡張子と見越して80文字とする
+        name = name[:80]
         audio_filename = os.path.join(self.prog_dir, name + ".mp3")
         cmd = 'ffmpeg -i "%s" ' \
               '-metadata title="%s" ' \
