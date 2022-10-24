@@ -25,7 +25,7 @@ def datestring_to_date(datestring):
 def get_detail_page_info(url='https://audee.jp/voice/show/27863'):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    title = soup.select_one(".ttl-inner").contents[1].strip()
+    title = soup.select_one(".ttl-inner").contents[1].replace('\r', "").replace('\n', "").strip()
     recorded_at = datestring_to_date(soup.select_one(".txt-date-01").text.strip())
     pattern = re.compile(r'"voice": \"(.*?)\"', re.MULTILINE | re.DOTALL)
     scripts = soup.select("script")
